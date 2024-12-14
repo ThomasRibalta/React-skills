@@ -1,8 +1,8 @@
 import Pizza from "./Pizza";
 import { useState, useEffect } from "react";
 
-const intl = new Intl.NumberFormat("fr", {
-  type: "currency",
+const intl = new Intl.NumberFormat("fr-FR", {
+  style: "currency",
   currency: "EUR",
 });
 
@@ -15,6 +15,7 @@ const Order = () => {
   let price, selectedPizza;
   if (!loading) {
     selectedPizza = pizzaTypes.find((pizza) => pizzaType === pizza.id);
+    price = intl.format(selectedPizza.sizes[pizzaSize]);
   }
 
   useEffect(() => {
@@ -94,14 +95,18 @@ const Order = () => {
           </div>
           <button type="submit">Add to Cart</button>
         </div>
-        <div className="order-pizza">
-          <Pizza
-            name="Pepperoni"
-            description="Mozzarella Cheese, Pepperoni"
-            image="/public/pizzas/pepperoni.webp"
-          />
-          <p>$13.37</p>
-        </div>
+        {loading ? (
+          <p>Loading pizza...</p>
+        ) : (
+          <div className="order-pizza">
+            <Pizza
+              name={selectedPizza.name}
+              description={selectedPizza.description}
+              image={selectedPizza.image}
+            />
+            <p>{price}</p>
+          </div>
+        )}
       </form>
     </div>
   );
