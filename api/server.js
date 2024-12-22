@@ -281,6 +281,7 @@ server.get("/api/past-order/:order_id", async function getPastOrder(req, res) {
 });
 
 server.post("/api/contact", async function contactForm(req, res) {
+  await new Promise((resolve) => setTimeout(resolve, 10000));
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
